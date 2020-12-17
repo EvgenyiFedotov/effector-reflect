@@ -1,6 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { FC, ComponentClass, createElement, useEffect } from 'react';
 import { Store, combine, Event, Effect, is } from 'effector';
 import { useEvent, useStore } from 'effector-react';
+import { v4 as uuid } from 'uuid';
+
+const comb: any = combine;
 
 export type BindByProps<Props> = {
   [Key in keyof Props]?:
@@ -49,7 +54,13 @@ export function reflectCreator(context: ReflectCreatorContext) {
       }
     }
 
-    const $bind = Object.keys(stores).length > 0 ? combine(stores) : null;
+    const $bind =
+      Object.keys(stores).length > 0
+        ? comb({
+            ɔ: [stores],
+            config: { name: uuid(), sid: uuid() },
+          })
+        : null;
 
     const hookMounted = config.hooks ? config.hooks.mounted : null;
     const mounted = hookMounted
@@ -72,12 +83,13 @@ export function reflectCreator(context: ReflectCreatorContext) {
     return (props) => {
       const storeProps = $bind ? context.useStore($bind) : ({} as Props);
       const eventsProps = context.useEvent(events);
-      const elementProps = {
-        ...storeProps,
-        ...eventsProps,
-        ...data,
-        ...props,
-      } as Props;
+      const elementProps = Object.assign(
+        {},
+        storeProps,
+        eventsProps,
+        data,
+        props,
+      ) as Props;
 
       mounted();
       unmounted();

@@ -30,6 +30,7 @@
     "@types/jest": "^26.0.15",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/parser": "^4.8.1",
     "effector": "^21.7.5",
     "effector-react": "^21.2.0",
@@ -59,5 +60,8 @@
       "pre-commit": "yarn eslint ./src",
       "pre-push": "yarn test ./src"
     }
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }
