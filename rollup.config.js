@@ -13,7 +13,9 @@ export default {
   watch: false,
   plugins: [
     typescript({
-      tsconfigDefaults: { compilerOptions: { declaration: true } },
+      tsconfigDefaults: {
+        compilerOptions: { declaration: true, emitDeclarationOnly: true },
+      },
     }),
     babel({
       exclude: 'node_modules/**',
